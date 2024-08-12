@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem
+                id="aliexpress_main_menu"
+                name="Aliexpress Connector"
+                web_icon="oeng_aliexpress_odoo_connector,static/description/aliexpress_odoo_icon.png"
+                groups="base.group_user"
+                sequence="137"
+        />
+    </data>
+</odoo>

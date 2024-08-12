@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="aliexpress_order_form_view" model="ir.ui.view">
+            <field name="name">aliexpress.order.form</field>
+            <field name="model">aliexpress.order</field>
+            <field name="arch" type="xml">
+                <form string="Aliexpress Order">
+                    <header>
+                        <button
+                                string="Sync Aliexpress order"
+                                name="create_sale_order_related"
+                                type="object"
+                                class="oe_highlight"
+                                confirm="The order will be created/updated as an Odoo sale order. Continue?"
+						        icon  ="fa-refresh"
+                        />
+                        <button
+                                string="Get address"
+                                name="get_receipt_info"
+                                type="object"
+                                confirm="The system will get from AliExpress the address data of the customer of this order. Continue?"
+                        />
+<!--                        <button-->
+<!--                                string="Get Logistics Services"-->
+<!--                                name="get_logistics_service_names"-->
+<!--                                type="object"-->
+<!--                                confirm="The system will get from AliExpress the available logistic services for this order. Continue?"-->
+<!--                        />-->
+                        <button
+                                string="Fulfill Order"
+                                name="fulfill_order"
+                                type="object"
+                                confirm="The order will be fulfilled in the AliExpress Seller platform. Continue?"
+                        />
+                        <field name="order_status" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="aliexpress_order_ref"/>
+                            <h1>
+                                <field name="aliexpress_order_ref" placeholder="AliExpress Order Reference"/>
+                            </h1>
+                            <group>
+                                <group>
+                                    <field name="aliexpress_order_ref"/>
+                                    <field name="payment_type"/>
+                                    <field name="logistics_escrow_fee_rate"/>
+                                    <field name="seller_operator_login_id"/>
+                                    <field name="seller_signer_fullname"/>
+                                </group>
+                                <group>
+                                    <field name="gmt_create"/>
+                                    <field name="address_shipping_id"/>
+                                    <field name="buyer_login_id"/>
+                                    <field name="buyer_signer_fullname"/>
+                                    <field name="aliexpress_instance_id"/>
+                                    <field name="sale_order_id"/>
+                                    <field name="items_count"/>
+                                </group>
+                            </group>
+                        </div>
+                        <notebook>
+                            <page name="order_items" string="Order Items">
+                                <field name="item_ids">
+                                    <tree>
+<!--                                        <field name="product_id"/>-->
+                                        <field name="aliexpress_product_url" optional="show" widget="url"/>
+                                        <field name="sku_code"/>
+                                        <field name="product_name"/>
+                                        <field name="show_status"/>
+<!--                                        <field name="logistics_type"/>-->
+<!--                                        <field name="product_img_url"/>-->
+<!--                                        <field name="currency_id"/>-->
+                                        <field name="product_count"/>
+                                        <field name="product_unit_price" widget="monetary"
+                                               options="{'currency_field': 'currency_id'}"/>
+                                        <field name="logistics_amount" widget="monetary"
+                                               options="{'currency_field': 'currency_id'}"/>
+                                        <field name="send_goods_time" optional="show"/>
+                                        <field name="product_standard" optional="show"/>
+                                        <field name="order_id" optional="show"/>
+                                        <field name="memo" optional="show"/>
+                                        <field name="issue_mode" optional="show"/>
+                                        <field name="fund_status" optional="show"/>
+                                        <field name="escrow_fee_rate" optional="show"/>
+                                        <field name="buyer_signer_last_name" optional="show"/>
+                                        <field name="buyer_signer_first_name" optional="show"/>
+                                        <field name="affiliate_fee_rate" optional="show"/>
+                                    </tree>
+                                </field>
+                            </page>
+<!--                            <page name="tracking_info" string="Tracking info">-->
+<!--                                <field name="freight_commit_day"/>-->
+<!--                                <field name="delivery_time"/>-->
+<!--                                <field name="logistics_type"/>-->
+<!--                                <field name="logistics_service_name"/>-->
+<!--                                <field name="goods_prepare_time"/>-->
+<!--                            </page>-->
+                            <page name="cancel_reasons" string="Cancel reasons">
+                                <field name="issue_status"/>
+                            </page>
+                            <page name="debug_info" string="Dev info" groups="base.group_no_one">
+                                <group>
+                                    <field name="aliexpress_order_ref"/>
+                                    <field name="order_detail_url"/>
+                                    <field name="sale_order_id"/>
+                                    <field name="pay_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="loan_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="left_send_good_day"/>
+                                    <field name="frozen_status"/>
+                                    <field name="order_status"/>
+                                    <field name="logistics_status"/>
+                                    <field name="left_send_good_min"/>
+                                    <field name="timeout_left_time"/>
+                                    <field name="left_send_good_hour"/>
+                                    <field name="buyer_login_id"/>
+                                    <field name="seller_login_id"/>
+                                    <field name="end_reason"/>
+                                    <field name="fund_status"/>
+                                    <field name="biz_type"/>
+                                    <field name="issue_status"/>
+                                    <field name="buyer_signer_fullname"/>
+                                    <field name="payment_type"/>
+                                    <field name="seller_operator_login_id"/>
+                                    <field name="has_request_loan"/>
+                                    <field name="phone"/>
+                                    <field name="logistics_escrow_fee_rate"/>
+                                    <field name="offline_pickup_type"/>
+                                    <field name="escrow_fee_rate"/>
+                                    <field name="escrow_fee" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="seller_signer_fullname"/>
+                                    <field name="address_shipping_id"/>
+                                    <field name="gmt_pay_time"/>
+                                    <field name="gmt_create"/>
+                                    <field name="gmt_update"/>
+                                    <field name="gmt_send_goods_time"/>
+                                    <field name="source_data"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="aliexpress_order_tree_view" model="ir.ui.view">
+            <field name="name">aliexpress.order.tree</field>
+            <field name="model">aliexpress.order</field>
+            <field name="arch" type="xml">
+                <tree string="Aliexpress Order">
+                    <field name="aliexpress_order_ref"/>
+                    <field name="sale_order_id"/>
+                    <field name="buyer_signer_fullname"/>
+                    <field name="order_status"/>
+                    <field name="items_count"/>
+                    <field name="gmt_create"/>
+                    <field name="gmt_update"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="aliexpress_order_search_view" model="ir.ui.view">
+            <field name="name">aliexpress.order.search</field>
+            <field name="model">aliexpress.order</field>
+            <field name="arch" type="xml">
+                <search string="Aliexpress Order">
+                    <group expand="1" string="Group By">
+                        <filter string="Reference" name="aliexpress_order_ref" domain="[]"
+                                context="{'group_by':'aliexpress_order_ref'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+<!--        <record id="aliexpress_order_act_window" model="ir.actions.act_window">-->
+<!--            <field name="name">AliExpress Orders</field>-->
+<!--            <field name="type">ir.actions.act_window</field>-->
+<!--            <field name="res_model">aliexpress.order</field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--            <field name="context">{}</field>-->
+<!--            <field name="help" type="html">-->
+<!--                <p class="oe_view_nocontent_create">-->
+<!--                    No results. Click here to add new Order AliExpress feed.-->
+<!--                </p>-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--        <menuitem name="AliExpress Order" id="aliexpress_order_menu"-->
+<!--                  parent="oeng_aliexpress_odoo_connector.aliexpress_order_menu"-->
+<!--                  action="aliexpress_order_act_window" sequence="3"/>-->
+    </data>
+</odoo>

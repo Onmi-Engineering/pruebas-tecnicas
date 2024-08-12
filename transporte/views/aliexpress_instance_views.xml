@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="aliexpress_instance_form_view" model="ir.ui.view">
+            <field name="name">aliexpress.instance.form</field>
+            <field name="model">aliexpress.instance</field>
+            <field name="arch" type="xml">
+                <form string="aliexpress Instances">
+                    <header>
+                        <button
+                                string="Connect"
+                                name="button_connect"
+                                type="object"
+                                class="oe_highlight"
+                                attrs="{'invisible': [('state', '!=', 'not_connected')]}"
+						        icon="fa-plug"
+                        />
+<!--                        <button-->
+<!--                                string="Get Providers"-->
+<!--                                name="button_get_providers"-->
+<!--                                type="object"-->
+<!--                                class="oe_highlight"-->
+<!--                                attrs="{'invisible': [('state', '=', 'not_connected')]}"-->
+<!--                        />-->
+                       <button
+                               string="Disconnect"
+                               name="button_disconnect"
+                               type="object"
+                               class="oe_highlight"
+                               attrs="{'invisible': [('state', '=', 'not_connected')]}"
+                               icon="fa-times-circle"
+                        />
+<!--                        <button-->
+<!--                                string="Sync products"-->
+<!--                                name="button_sync_products"-->
+<!--                                type="object"-->
+<!--                                attrs="{'invisible': [('state', '=', 'not_connected')]}"-->
+<!--                                confirm="All products created in Odoo will be created or updated in AliExpress. Continue?"-->
+<!--                        />-->
+                        <button
+                                string="Update orders"
+                                name="button_update_orders"
+                                type="object"
+                                attrs="{'invisible': [('state', '=', 'not_connected')]}"
+                                confirm="The system will synchronize all orders with changes after the selected date. Continue?"
+                        />
+                        <button
+                                string="Delete orders"
+                                name="button_delete_orders"
+                                type="object"
+                                attrs="{'invisible': [('state', '=', 'not_connected')]}"
+                                confirm="All the synchronized orders will be removed from the connector. Continue?"
+                        />
+
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <widget name="web_ribbon" title="Draft" bg_color="bg-warning"
+                                attrs="{'invisible': [('state', '!=', 'not_connected')]}"/>
+                        <widget name="web_ribbon" title="Connected" bg_color="bg-success"
+                                attrs="{'invisible': [('state', '!=', 'connected')]}"/>
+                        <widget name="web_ribbon" title="Failed" bg_color="bg-danger"
+                                attrs="{'invisible': [('state', '!=', 'failed')]}"/>
+                        <field name="image" class="oe_avatar" style="margin-right:5%;margin-top:20px" widget="image"/>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name" placeholder="Title"/>
+                            </h1>
+                            <group>
+                                <field name="seller_id" attrs="{'invisible':  [('state', '!=', 'connected')]}"/>
+                            </group>
+                        </div>
+                        <notebook>
+                            <page name="credentials" string="Credentials">
+                                <group>
+                                    <group name="basics_credentials" string="App configuration">
+                                        <field name="appkey"/>
+                                        <field name="appsecret" password="True"/>
+                                        <field name="base_url"/>
+                                        <field name="callback_url"/>
+                                        <field name="auth_code" password="True"/>
+                                        <field name="access_token" password="True"/>
+                                    </group>
+                                    <group name="extra_credentials" string="Authorization refresh data">
+                                        <field name="refresh_token" password="True"/>
+                                        <field name="expire_time_datetime" readonly="1"/>
+                                        <field name="refresh_token_valid_time_datetime" readonly="1"/>
+                                        <field name="expires_in_days" readonly="1"/>
+                                        <field name="refresh_expires_in_days" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="configuration_tab" string="Configuration">
+                                <group>
+                                    <group>
+                                        <field name="carrier_id"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="activity_tab" string="Activity">
+                                <group>
+                                    <group>
+                                        <field name="last_connection"/>
+                                        <field name="last_update_orders"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="debug_output" string="Debug output" groups="base.group_no_one">
+                                <group>
+                                    <group>
+                                        <field name="test_output"/>
+                                    </group>
+                                    <group>
+
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="failed_info" string="Error info"
+                                  attrs="{'invisible': [('state', '!=', 'failed')]}">
+                                <field name="failed_data" readonly="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="aliexpress_instance_tree_view" model="ir.ui.view">
+            <field name="name">aliexpress.instance.tree</field>
+            <field name="model">aliexpress.instance</field>
+            <field name="arch" type="xml">
+                <tree string="aliexpress Instances">
+                    <field name="name"/>
+                    <field name="base_url"/>
+                    <field name="appkey"/>
+                    <field name="state" decoration-success="state == 'connected'"
+                           decoration-info="state == 'not_connected' or state == 'failed'" widget="badge"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="aliexpress_instance_search_view" model="ir.ui.view">
+            <field name="name">aliexpress.instance.search</field>
+            <field name="model">aliexpress.instance</field>
+            <field name="arch" type="xml">
+                <search string="aliexpress Instances">
+                    <group expand="1" string="Group By">
+                        <filter string="Name" name="name" domain="[]"
+                                context="{'group_by':'name'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="aliexpress_instance_kanban_view" model="ir.ui.view">
+            <field name="name">aliexpress.instance.kanban</field>
+            <field name="model">aliexpress.instance</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="state"/>
+                    <field name="image"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_res_partner_kanban o_kanban_record_has_image_fill">
+                                <field name="image" class="o_kanban_image_fill_left d-block o_image_64"
+                                       widget="image" style="width: 100px!important; margin-right: 8px!important;"
+                                       options="{'zoom': true, 'zoom_delay': 100}"/>
+                                <div class="ribbon ribbon-top-right"
+                                     attrs="{'invisible': [('state', '!=', 'not_connected')]}">
+                                    <span class="bg-warning">Draft</span>
+                                </div>
+                                <div class="ribbon ribbon-top-right"
+                                     attrs="{'invisible': [('state', '!=', 'failed')]}">
+                                    <span class="bg-danger">Failed</span>
+                                </div>
+                                <div class="ribbon ribbon-top-right"
+                                     attrs="{'invisible': [('state', '!=', 'connected')]}">
+                                    <span class="bg-success">Connected</span>
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <strong class="o_kanban_record_title oe_partner_heading">
+                                        <field name="name"/>
+                                    </strong>
+                                    <div class="oe_kanban_content flex-grow-1">
+                                        <div attrs="{'invisible': [('state', '!=', 'connected')]}">
+                                            <strong>Seller: </strong>
+                                            <field name="seller_id"/>
+                                        </div>
+                                        <div>
+                                            <strong>App key: </strong>
+                                            <field name="appkey"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="aliexpress_instance_act_window" model="ir.actions.act_window">
+            <field name="name">aliexpress Instances</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">aliexpress.instance</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    No results. Click here to add new AliExpress Instances.
+                </p>
+            </field>
+        </record>
+
+        <record id="aliexpress_seller_act_window" model="ir.actions.act_window">
+            <field name="name">AliExpress Sellers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">aliexpress.seller</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    No results. Click here to add new AliExpress sellers.
+                </p>
+            </field>
+        </record>
+
+        <record id="aliexpress_order_act_window" model="ir.actions.act_window">
+            <field name="name">AliExpress Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">aliexpress.order</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    No results. Click here to add new AliExpress orders.
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="AliExpress Instances" id="aliexpress_instance_menu"
+                  parent="oeng_aliexpress_odoo_connector.aliexpress_main_menu"
+                  action="aliexpress_instance_act_window" sequence="1"/>
+
+        <menuitem name="AliExpress Sellers" id="aliexpress_seller_menu"
+                  parent="oeng_aliexpress_odoo_connector.aliexpress_main_menu"
+                  action="aliexpress_seller_act_window" sequence="2"/>
+
+        <menuitem name="AliExpress Orders" id="aliexpress_order_menu"
+                  parent="oeng_aliexpress_odoo_connector.aliexpress_main_menu"
+                  action="aliexpress_order_act_window" sequence="3"/>
+    </data>
+</odoo>

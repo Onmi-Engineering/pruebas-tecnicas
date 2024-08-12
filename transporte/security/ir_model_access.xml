@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="transporte_solicitud_model_access_right" model="ir.model.access">
+            <field name="name">transporte_solicitud_model_access_right</field>
+            <field name="model_id" ref="model_transporte_solicitud"/>
+            <field name="active">1</field>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">1</field>
+            <field name="perm_unlink">1</field>
+        </record>
+
+        <record id="transporte_vehiculo_model_access_right" model="ir.model.access">
+            <field name="name">transporte_vehiculo_model_access_right</field>
+            <field name="model_id" ref="model_transporte_vehiculo"/>
+            <field name="active">1</field>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">1</field>
+            <field name="perm_unlink">1</field>
+        </record>
+
+    </data>
+</odoo>

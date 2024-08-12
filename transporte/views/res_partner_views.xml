@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="oeng_res_parnter_form_inherit_aliexpress_bool" model="ir.ui.view">
+            <field name="name">oeng.res.parnter.form.inherit.aliexpress.bool</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="aliexpress_partner"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

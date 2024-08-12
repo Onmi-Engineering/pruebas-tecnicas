@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="aliexpress_seller_form_view" model="ir.ui.view">
+            <field name="name">aliexpress.seller.form</field>
+            <field name="model">aliexpress.seller</field>
+            <field name="arch" type="xml">
+                <form string="AliExpress sellers">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name" placeholder="Title"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name_company"/>
+                                <field name="seller"/>
+                                <field name="short_code"/>
+                            </group>
+                            <group>
+                                <field name="email"/>
+                                <field name="location"/>
+                                <field name="verified"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="shipment_providers"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="aliexpress_seller_tree_view" model="ir.ui.view">
+            <field name="name">aliexpress.seller.tree</field>
+            <field name="model">aliexpress.seller</field>
+            <field name="arch" type="xml">
+                <tree string="AliExpress sellers">
+                    <field name="name"/>
+                    <field name="name_company"/>
+                    <field name="seller"/>
+                    <field name="location"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="aliexpress_seller_search_view" model="ir.ui.view">
+            <field name="name">aliexpress.seller.search</field>
+            <field name="model">aliexpress.seller</field>
+            <field name="arch" type="xml">
+                <search string="AliExpress sellers">
+                    <group expand="1" string="Group By">
+                        <filter string="Name" name="name" domain="[]"
+                                context="{'group_by':'name'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="aliexpress_seller_act_window" model="ir.actions.act_window">
+            <field name="name">AliExpress sellers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">aliexpress.seller</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    No results. Click here to add new AliExpress sellers.
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="AliExpress sellers" id="aliexpress_seller_menu"
+                  parent="oeng_aliexpress_odoo_connector.aliexpress_main_menu"
+                  action="aliexpress_seller_act_window" sequence="1"/>
+    </data>
+</odoo>

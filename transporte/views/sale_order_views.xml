@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="oeng_sale_order_form_inherit_aliexpress_order" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+<!--                    <field name="aliexpress_order_id"/>-->
+<!--                    <field name="order_status"/>-->
+<!--                    <button name="fulfill_aliexpress_order" type="object"-->
+<!--                            string="Fulfill AliExpress Order" class="oe_highlight"-->
+<!--                            attrs="{'invisible': ['|', ('aliexpress_order_id', '=', False), ('has_missing_products', '=', True)]}"-->
+<!--                            confirm="The system will get the shipping address from AliExpress and the order will be marked as sent. Continue?"-->
+<!--						        icon  ="fa-truck"-->
+<!--                    />-->
+<!--                    <button name="set_failed_on_delivery" type="object"-->
+<!--                            string="Set Failed on Delivery" class="oe_highlight"-->
+<!--                            attrs="{'invisible': [('aliexpress_order_id', '=', False)]}"/>-->
+                </xpath>
+
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="partner_shipping_id" attrs="{'invisible': [('aliexpress_order_id', '=', False)]}"
+                           readonly="1"/>
+                    <field name="aliexpress_order_url" attrs="{'invisible': [('aliexpress_order_url', '=', '')]}" readonly="1" widget="url"/>
+                </xpath>
+
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name="aliexpress_order_id" attrs="{'readonly': [('aliexpress_order_id', '!=', False)], 'invisible': [('aliexpress_order_id', '=', False)]}"/>
+                    <field name="has_missing_products" attrs="{'invisible': [('aliexpress_order_id', '=', False)]}"/>
+                </xpath>
+
+                <xpath expr="//notebook" position="inside">
+                    <page name="aliexpress_tracking" string="AliExpress Tracking"
+                          attrs="{'invisible': [('aliexpress_order_id', '=', False )]}">
+<!--                        <field name="tracking_info" widget="text"/>-->
+                    </page>
+                </xpath>
+
+                <xpath expr="//field[@name='name' and @widget='section_and_note_text']" position="replace">
+                    <field name="name" widget="section_and_note_text" optional="show" decoration-danger="product_is_wrong == True"/>
+                    <field name="product_is_wrong" optional="show"/>
+                    <field name="product_wrong_message" readonly="1" attrs="{'invisible': [('product_is_wrong', '=', False)]}" decoration-danger="True"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="oeng_sale_order_view_tree" model="ir.ui.view">
+			<field name="name">sale.order.tree</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_tree"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='name']" position="replace">
+                    <field name="name" decoration-danger="has_missing_products == True" readonly="1"/>
+                    <field name="has_missing_products" readonly="1" optional="show"/>
+                </xpath>
+				<xpath expr="//field[@name='state']" position="after">
+                    <field name="delivery_status" readonly="1" optional="show"/>
+                </xpath>
+<!--				<xpath expr="//field[@name='create_date']" position="replace">-->
+<!--                    <field name="date_order" readonly="1"/>-->
+<!--                </xpath>-->
+			</field>
+		</record>
+
+        <record id="oeng_sale_quotation_view_tree" model="ir.ui.view">
+			<field name="name">sale.quotation.tree</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_quotation_tree"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='name']" position="replace">
+                    <field name="name" decoration-danger="has_missing_products == True" readonly="1"/>
+                    <field name="has_missing_products" readonly="1" optional="show"/>
+                </xpath>
+				<xpath expr="//field[@name='state']" position="after">
+                    <field name="delivery_status" decoration-success="delivery_status == 'full'" decoration-info="delivery_status == 'pending'" decoration-danger="delivery_status == 'partial'" widget="badge" readonly="1" optional="show"/>
+                </xpath>
+				<xpath expr="//field[@name='create_date']" position="replace">
+                    <field name="date_order" readonly="1"/>
+                </xpath>
+			</field>
+		</record>
+
+<!--        <record id="sale_order_view_tree" model="ir.ui.view">-->
+<!--			<field name="name">sale.order.tree</field>-->
+<!--			<field name="model">sale.order</field>-->
+<!--			<field name="inherit_id" ref="sale_stock.view_order_tree"/>-->
+<!--			<field name="arch" type="xml">-->
+<!--				<xpath expr="//field[@name='name']" position="replace">-->
+<!--                    <field name="name" decoration-danger="has_missing_products == True" readonly="1"/>-->
+<!--                    <field name="has_missing_products" readonly="1" optional="show"/>-->
+<!--                </xpath>-->
+<!--			</field>-->
+<!--		</record>-->
+
+<!--        <record id="sale_order_view_tree" model="ir.ui.view">-->
+<!--			<field name="name">sale.order.tree</field>-->
+<!--			<field name="model">sale.order</field>-->
+<!--			<field name="inherit_id" ref="sale_stock.view_quotation_tree"/>-->
+<!--			<field name="arch" type="xml">-->
+<!--				<xpath expr="//field[@name='name']" position="replace">-->
+<!--                    <field name="name" decoration-danger="has_missing_products == True" readonly="1"/>-->
+<!--                    <field name="has_missing_products" readonly="1" optional="show"/>-->
+<!--                </xpath>-->
+<!--			</field>-->
+<!--		</record>-->
+
+    </data>
+</odoo>
