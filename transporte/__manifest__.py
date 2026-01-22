@@ -1,6 +1,6 @@
 {
     'name': 'TRANSPORTES',
-    'version': '17.0.0.1',
+    'version': '18.0.0.1',
     'summary': 'Prueba técnica OEng - Transportes',
     'description': 'Módulo de gestión de transportes (prueba técnica)',
     'category': 'Prueba nivel',
@@ -12,9 +12,15 @@
         'mrp',
     ],
     'data': [
+        # Security
         'security/ir_model_access.xml',
-        'views/menuitem.xml',
+
+        # Views
         'views/res_partner_views.xml',
+        'views/transporte_solicitud_views.xml',
+
+        # Menus
+        'views/menuitem.xml',
     ],
     'installable': True,
     'application': True,

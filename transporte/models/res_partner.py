@@ -4,4 +4,4 @@ from odoo import fields, models
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    # campo1 = fields.TipoDelCampo('Nombre del campo')
+    campo1 = fields.Char('Nombre del campo')

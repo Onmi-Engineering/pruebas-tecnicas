@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <record id="oeng_transportes_res_parnter_list" model="ir.ui.view">
+            <field name="name">oeng.transportes.res.parnter.list</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <field name="email" position="after">
+                    <field name="campo1"/>
+                </field>
+            </field>
+        </record>
 
-        <record id="oeng_res_parnter_form_inherit_aliexpress_bool" model="ir.ui.view">
-            <field name="name">oeng.res.parnter.form.inherit.aliexpress.bool</field>
+        <record id="oeng_transportes_res_parnter_form" model="ir.ui.view">
+            <field name="name">oeng.transportes.res.parnter.form</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='vat']" position="after">
-                    <field name="aliexpress_partner"/>
-                </xpath>
+                <field name="vat" position="after">
+                    <field name="campo1"/>
+                </field>
             </field>
         </record>
     </data>
